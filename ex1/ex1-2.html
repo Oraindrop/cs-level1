@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>BMI 계산</h1>
+    <div id = "result"></div>
+    <!--
+        비만 판정하는 방법의 하나로 체중(kg)을 신장(m)의 제곱으로 나눈 값
+        (체중(kg)/신장(m2))으로 체지방 축적을 잘 반영하기 때문에 비만도 판정에 많이 사용한다. 
+        신체지수에 의한 비만의 분류는 
+        정상 : BMI 20~25, 
+        과체중(1도 비만) : BMI 25~29.9, 
+        비만(2도 비만) : BMI 30~40, 
+        고도비만 : BMI 40.1 이상을 말한다.
+
+        Naver 지식 백과
+    -->
+    <script>
+        var input1;     // 첫번째 입력 받은 문자열
+        var input2;     // 두번째 입력 받은 문자열
+        var weight;     // Number type으로 형 변환 input1
+        var height;     // Number type으로 형 변환 input2
+        var result;     // 결과를 출력할 html element
+        var bmi;        // 계산된 bmi 값
+
+        result = document.getElementById("result");
+        console.log("result", result);
+        
+        input1 = prompt("체중(kg)을 입력하세요.");
+        input2 = prompt("신장(cm)을 입력하세요.");
+        console.log("input1", input1);
+        console.log("input2", input2);
+
+        weight = Number(input1);    // input1, String -> Number 형 변환
+        height = Number(input2);    // input2, String -> Number 형 변환
+        console.log("weight", weight);
+        console.log("height", height);
+
+        if(input1 === "" || input2 === ""){
+            // 입력 값이 없을 때
+            result.innerHTML = "입력 값을 입력하지 않았습니다."
+        }
+        else if(isNaN(weight) || isNaN(height)){
+            // 형 변환 실패, 즉 입력 값이 number가 아닐 때
+            result.innerHTML = "입력 값이 잘못되었습니다.";
+        }
+        else{
+            height /= 100; // cm단위인 신장을 m단위로 변환
+            bmi = weight / (height * height);
+            console.log("bmi", bmi);
+
+            result.innerHTML += "BMI : " + bmi + "<br>";
+            if(bmi < 20) {
+                result.innerHTML += "정상, 과체중, 비만, 고도비만 네 가지 카테고리에 속하지 않습니다."
+            }
+            else if(bmi >= 20 && bmi < 25){
+                result.innerHTML += "정상 입니다.";
+            }
+            else if(bmi >= 25 && bmi < 30){
+                result.innerHTML += "과체중(1도 비만) 입니다.";
+            }
+            else if(bmi >= 30 && bmi <= 40){
+                result.innerHTML += "비만(2도 비만) 입니다.";
+            }
+            else if(bmi > 40){
+                result.innerHTML += "고도비만 입니다.";
+            }
+            else{
+                // 닿을 수 없는 로직                                
+            }            
+        }
+    </script>
+</body>
+</html>
