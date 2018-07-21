@@ -19,8 +19,13 @@
         input1 = prompt("문자열을 입력하세요.");
         console.log("input1", input1);
         
-        // String 객체의 input1 의 length 속성 출력
-        result.innerHTML = "문자열의 길이 : " + input1.length;
+        if(input1 === null){
+            result.innerHTML = "입력 값을 입력하지 않았습니다."
+        }
+        else{
+            // String 객체의 input1 의 length 속성 출력
+            result.innerHTML = "문자열의 길이 : " + input1.length;
+        }
     </script>
 </body>
 </html>
