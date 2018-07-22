@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>multiTableSimple</title>
+</head>
+<body>
+    <h1>입력 값 n에 해당하는 구구단 n단을 출력</h1>
+    <div id = "result"></div>
+    <script>
+        var input1;     // input value
+        var n;          // input1, String to Number
+        var result;     // html element
+        var resultString;
+        resultString = "";
+
+        result = document.getElementById("result");
+        console.log("result", result);
+
+        input1 = prompt("구구단 출력 프로그램입니다. 몇 단(2~9)을 출력할까요?");
+        console.log("input1", input1);
+
+        n = Number(input1);
+        console.log("n", n);
+        
+        if(input1 === "" || input1 === null){
+            // input value is null
+            result.innerHTML = "입력 값을 입력하지 않았습니다.";
+        }
+        else if(isNaN(n)){
+            // type casting fail
+            result.innerHTML = "입력 값을 잘못 입력하였습니다.";
+        }
+        else if(Math.round(n) !== n){
+            // n type is not integer
+            result.innerHTML = "입력 값을 정수로 입력해주세요.";
+        }
+        else if(n < 2 || n > 9){
+            // out of bound
+            result.innerHTML = "입력 값을 2~9 사이의 정수로 입력해주세요."
+        }
+        else {            
+            for(var i = 1; i < 10; i++){
+                resultString += n + " * " + i + " = " + (n*i) + "<br>";                
+            }
+            console.log("resultString", resultString);
+            result.innerHTML = resultString;
+        }
+    </script>
+</body>
+</html>
