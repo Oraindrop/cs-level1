@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>multiTableObject</title>
+</head>
+<body>
+    <h1>구구단</h1>
+    <div id = "result"></div>
+    <script>
+        var multiTable = {};    // declare object
+        multiTable.answer = []; // multi answer
+        multiTable.dan = 0;
+        multiTable.table = "";  // for printing
+        
+        // bound check function
+        multiTable.isPossible = function(number){            
+            if(isNaN(number)){
+                return false;
+            }
+            else if(Math.round(number) !== number){
+                return false;
+            }
+            else if(number < 2 || number > 9){
+                return false;
+            }
+            else {
+                this.dan = number;
+                console.log("this.dan", this.dan);
+                return true;
+            }
+        }
+
+        // multi calculate
+        multiTable.calculate = function(){
+            for(var i = 1; i < 10; i++){
+                this.answer.push(this.dan * i);
+            }
+            console.log("this.answer", this.answer);
+
+            // call setTable
+            this.setTable();
+        }
+
+        // print string setting
+        multiTable.setTable = function(){
+            for(var i = 0; i < this.answer.length; i++){
+                this.table += this.dan + " * " + (i+1) + " = " + this.answer[i] + "<br>";
+            }
+            console.log("this.table", this.table);
+        }
+
+        // return table value
+        multiTable.getTable = function(){
+            return this.table;
+        }
+
+        var main = function(){            
+            var result; // result html element
+            var input1; // input value
+            var number; // input1, string to number
+
+            result = document.getElementById("result");
+            console.log("result", result);
+            input1 = prompt("몇 단(2~9) 출력할까요?");
+            console.log("input1", input1);
+
+            if(input1 === null || input1 === ""){
+                result.innerHTML = "입력 값이 없습니다."
+                return;
+            }
+            else {
+                number = Number(input1);    // type casting
+                if(multiTable.isPossible(number)){                              
+                    multiTable.calculate();
+                    result.innerHTML = "<h2>" + number + "단</h2>";
+                    result.innerHTML += multiTable.getTable();
+                }
+                else{
+                    result.innerHTML = "입력 값이 잘못되었습니다."
+                    return;
+                }
+            }
+        }
+        
+        main(); // start
+    </script>
+</body>
+</html>

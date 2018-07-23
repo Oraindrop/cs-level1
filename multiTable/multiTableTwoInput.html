@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>multiTableTwoInput</title>
+</head>
+<body>
+    <h1>n,m 단</h1>
+    <div id = "result"></div>
+    <script>
+        var multiTable = {};    //declare object
+        multiTable.answer = []; // multi answer
+        multiTable.firstMax = 0;
+        multiTable.secondMax = 0;
+        multiTable.table = "";  // for printing
+
+        // bound check function.
+        multiTable.isPossible = function(num1, num2){
+            if(isNaN(num1) || isNaN(num2)){
+                return false;
+            }
+            else if(Math.round(num1) !== num1 || Math.round(num2) !== num2){
+                return false;
+            }
+            else if(num1 < 2 || num1 > 9){
+                return false;
+            }
+            else if(num2 < 2 || num2 > 9){
+                return false;
+            }
+            else {
+                this.firstMax = num1;
+                this.secondMax = num2;
+                console.log("this.firstMax", this.firstMax);
+                console.log("this.secondMax", this.secondMax);
+                return true;
+            }
+        }
+
+        // multi calculate function.
+        multiTable.calculate = function(){
+            for(var i = 2; i <= this.firstMax; i++){
+                var tempArr = [];
+                for(var j = 1; j <= this.secondMax; j++){
+                    tempArr.push(i*j);
+                }
+                this.answer.push(tempArr);
+            }
+            // call setTable func.
+            this.setTable();
+            console.log("this.answer", this.answer);
+        }
+
+        // print string setting
+        multiTable.setTable = function(){
+            for(var i = 0; i < this.answer.length; i++){
+                this.table += "<h2>" + (i+2) + "단</h2>";
+                for(var j = 0; j < this.answer[i].length; j++){
+                    this.table += (i+2) + " * " + (j+1) + " = " + this.answer[i][j] + "<br>";
+                }
+            }
+            console.log("this.table", this.table);
+        }
+        
+        // table value getter
+        multiTable.getTable = function(){
+            return this.table;
+        }
+
+        var main = function(){
+            var input1;     // input            
+            var numberArr;  // num1, num2
+            var result;     // for result html element
+
+            result = document.getElementById("result");
+            console.log("result", result);
+
+            input1 = prompt("출력을 원하는 n,m단의 두 값을 n,m 형식으로 입력해주세요.");
+            console.log("input1", input1);
+            
+            numberArr = input1.split(",");            
+            console.log("numberArr", numberArr);
+
+            if(input1 === null || input1 === ""){
+                result.innerHTML = "입력 값이 공백입니다.";
+                return;
+            }
+            else if(numberArr.length !== 2){
+                result.innerHTML = "n, m 형식으로 입력해주세요.";
+                return;
+            }
+            else{
+                numberArr[0] = Number(numberArr[0]);
+                numberArr[1] = Number(numberArr[1]);                
+                console.log("numberArr[0]", numberArr[0]);
+                console.log("numberArr[1]", numberArr[1]);                
+
+                if(multiTable.isPossible(numberArr[0], numberArr[1])){
+                    multiTable.calculate();
+                    result.innerHTML = multiTable.getTable();
+                    return;
+                }
+                else{
+                    result.innerHTML = "입력 값이 잘못되었습니다.";
+                    return;
+                }
+            }
+        }
+
+        main(); // start
+    </script>
+
+</body>
+</html>
