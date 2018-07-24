@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SimpleGlassHour</title>
+</head>
+<body onload = main()>
+    <script src="http://code.jquery.com/jquery-1.10.1.js"></script>
+    <script>
+        var input1 = prompt("모래시계의 가장 긴 라인(홀수)을 입력하세요.")
+        var number1 = Number(input1);
+        var id = 0;
+
+        var topPrint = function(max){
+            var cnt = 0;
+            var y = 0;
+            for(var i = max; i >= 1; i = i-2){                
+                for(var j = 0; j < i; j++){
+                    document.write("<div id= \"div" + cnt + "\" style=\"position : absolute\; left:" + (j*10 + y*10) + "px\; top:" + y*10 + "px\;\">*</div>");
+                    cnt++;
+                }                
+                y++;
+            }
+            console.log("cnt", cnt);
+            console.log("call move");
+            move(cnt-1, max);
+        }
+        
+        var move = function(idNumber, max){
+            for(var i = 1; i <= max; i = i+2){
+                for(var j = 1; j <= i; j++){
+                    var elementID = "#div" + idNumber;
+                    console.log("elementID", elementID);                    
+                    
+                    var topString = "";                
+                    topString = $(elementID).css("top");
+                    console.log("topString", topString)
+
+                    var movTop = 0;
+                    movTop = Number(topString.slice(0, topString.length-2)) + (10*i + 30);
+                    console.log("movTop", movTop);
+
+                    topString = movTop + "px"
+                    console.log("topString", topString);
+                    $(elementID).animate({ top : topString },1000+j*100);
+
+                    idNumber--;
+                }                
+            }
+        }
+       
+        var main = function(){
+            topPrint(number1)    
+        }
+    </script>
+</body>
+</html>

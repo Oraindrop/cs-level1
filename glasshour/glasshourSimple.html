@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SimpleGlassHour</title>
+</head>
+<body>
+    <h1>모래시계 출력</h1>    
+    <script>
+        var input1 = prompt("모래시계의 가장 긴 라인(홀수)을 입력하세요.")
+        var number1 = Number(input1);
+        
+        var topPrint = function(max){
+            for(var i = 0; i < max; i = i+2){
+                console.log("max", max)
+                console.log("i", i);
+                for (var j = 0 ; j < i; j = j+2){
+                    document.write("&nbsp");
+                    console.log("공백", j);
+                }
+                for (var j = i; j < max; j++){
+                    document.write("*");
+                    console.log("별", j);
+                }
+                document.write("<br>")
+                console.log("개행");
+            }
+        }
+        
+        var downPrint = function(max){
+            for(var i = max-3; i >=0 ; i = i-2){
+                console.log("i", i);
+                for (var j = 0 ; j < i; j=j+2){
+                    document.write("&nbsp");
+                    console.log("공백", j);
+                }
+                for (var j = i; j < max; j++){
+                    document.write("*");
+                    console.log("별", j);
+                }
+                document.write("<br>")
+                console.log("개행");
+            }
+        }
+        
+        var main = function(){
+            topPrint(number1);
+            downPrint(number1);
+        }    
+
+        main();
+    </script>
+</body>
+</html>
