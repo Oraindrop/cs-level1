@@ -33,6 +33,7 @@
         }
         else if(Math.round(number1) !== number1){
             // 입력한 숫자가 정수가 아닐 때 (js에서는 int type이 없으니, number1을 반올림한 결과가 number1과 다르면 실수라고 판단함)
+            // 15.0 같은거는 15로 변환되어서 
             result.innerHTML = "입력 값이 정수가 아닙니다."
         }
         else {
