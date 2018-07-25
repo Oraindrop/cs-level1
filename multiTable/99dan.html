@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>99dan</title>
+</head>
+<body>
+    <h1>99dan</h1>
+    <table id = "result" border="1">
+        <tr>
+            <td id = "td2">2단</td>
+            <td id = "td3">3단</td>
+            <td id = "td4">4단</td>
+        </tr>
+
+        <tr>
+            <td id = "td5">5단</td>
+            <td id = "td6">6단</td>
+            <td id = "td7">7단</td>
+        </tr>
+        
+        <tr>
+            <td id = "td8">8단</td>
+            <td id = "td9">9단</td>
+        </tr>
+    </table>
+    <script>
+        var reuslt = document.getElementById("result");
+        for(var i = 2; i < 10; i++){
+            var idString = "td" + i;
+            var result = document.getElementById(idString);
+            result.innerHTML += "<br>"
+            for(var j = 1 ; j < 10; j++){
+                result.innerHTML += i + " * " + j + " = " + (i*j) + "<br>"; 
+            }            
+        }
+    </script>
+</body>
+    
+</html>
