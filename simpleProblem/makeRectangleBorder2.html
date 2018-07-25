@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+           font-family: "Courier New", Courier, monospace;
+           font-size: 2em;    
+       }
+    </style>
+</head>
+<body onload = main()>
+    <div id = "result"></div>
+    <script>
+        var printRec = function(result, str, i, j){
+            if(i === 0 || i === Number(str[1]-1)){
+                    result.innerHTML += "*";
+                }
+            else{
+                if(j === 0 || j === Number(str[0])-1){
+                    result.innerHTML += "*";
+                }
+                else {
+                    result.innerHTML += "&nbsp";
+                }
+            }            
+        }
+        
+        var main = function(){
+            var input = prompt("직사각형의 밑변(n)과 높이(m)를 n,m 형식으로 입력해주세요.");
+            var str = [];
+            str = input.split(",");
+            var result = document.getElementById("result");
+            for(var i = 0; i < Number(str[1]); i++){
+                for(var j = 0; j < Number(str[0]); j++){
+                    printRec(result, str, i, j);
+                }
+                result.innerHTML += "<br>";
+             }     
+        }
+    </script>
+</body>
+</html>
