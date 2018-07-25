@@ -8,19 +8,19 @@
 </head>
 <body onload = main()>
     <script>
-        var printRec = function(str,i,j){
+        var printRec = function(str, i, j){
             if(i === 0 || i === Number(str[1]-1)){
                     document.write("<div id= \"div\" style=\"position : absolute\; left:" + (j*10) + "px\; top:" + i*10 + "px\;\">*</div>");
                 }
             else{
-                if(j===0 || j ===Number(str[0])-1){
+                if(j === 0 || j === Number(str[0])-1){
                     document.write("<div id= \"div\" style=\"position : absolute\; left:" + (j*10) + "px\; top:" + i*10 + "px\;\">*</div>");
                 }
             }
         }
         
         var main = function(){
-            var input = prompt("직사각형의 밑변과 높이를 입력해주세요.");
+            var input = prompt("직사각형의 밑변(n)과 높이(m)를 n,m 형식으로 입력해주세요.");
             var str = [];
             str = input.split(",");
             for(var i = 0; i < Number(str[1]); i++){
