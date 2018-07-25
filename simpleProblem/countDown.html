@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <div id = "result"></div>
+</head>
+<body>
+    <script>
+        var count = 100;
+        var result = document.getElementById("result");
+        var repeat = setInterval(function(){
+            console.log('setInterval');
+            result.innerHTML = count;
+            count--;
+            if(count === 0){
+                clearInterval(repeat);
+            }
+        }, 100)
+    </script>
+</body>
+</html>
