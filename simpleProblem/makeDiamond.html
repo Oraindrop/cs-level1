@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Print Diamond</title>
     <style>
         div {
             font-family: "Courier New", Courier, monospace;
@@ -12,30 +12,96 @@
         }
     </style>
 </head>
-<body>
+<body onload="main()">
+    <h1>Print Diamond</h1>
     <div id = "result"></div>
     <script>
-        var input1 = prompt("홀 수를 입력해주세요.")
-        var num = Number(input1);
-        var result = document.getElementById("reuslt");
+        var printTop = function(num, result){
+            console.log("welcom printTop");
+            var star = 1;
+            var blank = Math.floor(num/2);
+            console.log("star", star);
+            console.log("blank", blank);
 
-        for(var i = 0; i < num; i++){
-            if(i <= Math.floor(num/2)){
-                // printTop(i, num);
+            for(var i = 0; i <= Math.floor(num/2); i++){
+                for(var j = 0; j < blank; j++){
+                    result.innerHTML += "&nbsp;";
+                }
+                for(var j = 0; j < star; j++){
+                    result.innerHTML += "*";
+                }
+                result.innerHTML += "<br>";
+                star += 2;
+                blank -= 1;
+                console.log("i : ", i);
+                console.log("---------");
+                console.log("star", star);
+                console.log("blank", blank);
+                console.log("reulut.innerHTML", result.innerHTML);
             }
-            else{
-                // printBottom(i, num);
+            return;
+        }
+
+        var printBottom = function(num, result){
+            console.log("welcom printBottom");
+            var star = num - 2;
+            var blank = 1;
+            console.log("star", star);
+            console.log("blank", blank);
+
+            for(var i = 0; i <= Math.floor(num/2) - 1; i++){
+                for(var j = 0; j < blank; j++){
+                    result.innerHTML += "&nbsp;";
+                }
+                for(var j = 0; j < star; j++){
+                    result.innerHTML += "*";
+                }
+                result.innerHTML += "<br>";
+                star -= 2;
+                blank += 1;
+                console.log("i : ", i);
+                console.log("---------");
+                console.log("star", star);
+                console.log("blank", blank);
+                console.log("result.innerHTML", result.innerHTML);
+            }
+            return;
+        }
+
+        var isPossible = function(num){
+            if(isNaN(num)){            
+                return false;   // 형 변환 실패, 즉 입력 값이 number가 아닐 때
+            }
+            else if(!Number.isInteger(num)){            
+                return false;   // 입력 값이 정수가 아닐 때
+            }
+            else if(num % 2 === 0 || num === 1){
+                return false;   // 입력 값이 짝수일 때, 혹은 1일 때
+            }
+            else {
+                return true;
             }
         }
-        
 
-        var printTop = function(num){
-        }
-
-        var printBottom = function(num){
-
-        }
-
+        var main = function(){
+            var input1 = prompt("마름모를 출력하겠습니다. 라인수를 3 이상의 홀수로 입력해주세요.");
+            var result = document.getElementById("result"); // 결과를 출력할 html element            
+            if(input1 === "" || input1 === null){
+                result.innerHTML = "입력 값이 공백입니다."
+                return;
+            }
+            else {
+                if(isPossible(Number(input1))){
+                    printTop(Number(input1), result);
+                    printBottom(Number(input1), result);
+                    return;
+                }
+                else {
+                    result.innerHTML = "입력 값이 잘못되었습니다."
+                    return;
+                }
+            }
+        }            
     </script>
 </body>
 </html>
