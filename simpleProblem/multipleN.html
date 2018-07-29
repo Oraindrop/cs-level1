@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>n의 배수</title>
+</head>
+<body onload = main()>
+    <h1>n의 배수를 10개 출력하는 프로그램</h1> 
+    <div id = "result"></div>
+    <script>
+        var isPossible = function(num){
+            if(isNaN(num)){            
+                return false;   // 형 변환 실패, 즉 입력 값이 number가 아닐 때
+            }
+            else if(!Number.isInteger(num)){            
+                return false;   // 입력 값이 정수가 아닐 때
+            }
+            else {
+                return true;
+            }
+        }
+
+        var multipleOfNum = function(num){
+            var str = "";
+            for(var i = 0; i < 10; i++){
+                str += num*(i+2);
+                str += "<br>";
+            }
+            console.log("str", str);
+            return str;
+        }
+
+        var main = function(){
+            var input1 = prompt("배수를 알고 싶은 n을 입력하세요.");
+            var result = document.getElementById("result"); // 결과를 출력할 html element            
+            if(input1 === "" || input1 === null){
+                result.innerHTML = "입력 값이 공백입니다."
+                return;
+            }
+            else{
+                if(isPossible(Number(input1))){
+                    result.innerHTML = input1 + "의 배수 입니다. <br>"
+                    result.innerHTML += multipleOfNum(Number(input1));
+                }
+                else{
+                    result.innerHTML = "입력 값이 잘못되었습니다."
+                }
+                return;
+            }
+        }
+
+    </script>
+</body>
+</html>
