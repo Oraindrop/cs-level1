@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>n의 약수</title>
+</head>
+<body onload = main()>
+    <h1>입력 값 n의 약수를 구하는 프로그램입니다.</h1>
+    <div id = "result"></div>
+    <script>
+        var isPossible = function(num){
+            if(isNaN(num)){            
+                return false;   // 형 변환 실패, 즉 입력 값이 number가 아닐 때
+            }
+            else if(!Number.isInteger(num)){            
+                return false;   // 입력 값이 정수가 아닐 때
+            }
+            else if(num < 1){
+                return false;  // 입력 값이 1보다 작을 때 약수를 구할 수 없다.
+            }
+            else {
+                return true;
+            }
+        }
+
+        var submultipleOfNum = function(num){
+            var str = "(";
+            for(var i = 1; i <= num; i++){
+                if(num % i === 0){ // num을 i로 나눈 나머지가 0이면 약수이다.
+                    str += i + ","
+                }
+            }
+            str = str.slice(0, str.length-1);   // 마지막 콤마 삭제.
+            str += ")";
+            console.log("str", str);
+            return str;
+        }
+
+        var main = function(){
+            var input1 = prompt("약수를 알고 싶은 n을 입력하세요.");
+            var result = document.getElementById("result"); // 결과를 출력할 html element            
+            if(input1 === "" || input1 === null){
+                result.innerHTML = "입력 값이 공백입니다."
+                return;
+            }
+            else{
+                if(isPossible(Number(input1))){
+                    result.innerHTML = input1 + "의 약수 입니다. <br>"
+                    result.innerHTML += submultipleOfNum(Number(input1));
+                }
+                else{
+                    result.innerHTML = "입력 값이 잘못되었습니다."
+                }
+                return;
+            }
+        }
+    </script>
+</body>
+</html>
