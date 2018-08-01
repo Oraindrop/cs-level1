@@ -27,7 +27,6 @@
             for(var i = 0; i < 9; i++){
                 numberArr[i] = i+1;
             }
-            console.log("numberArr", numberArr);
             return numberArr;
         }
 
@@ -37,10 +36,8 @@
             var answerArr = [];
             for(var i = 0 ; i < 3; i++){
                 var randomNum = Math.floor(Math.random() * numArr.length);
-                console.log("i : %d , randomNum : %d", i, randomNum);
                 answerArr[i] = numArr[randomNum];
                 numArr.splice(randomNum, 1);
-                console.log("numArr", numArr);
             }
             return answerArr;
         }
@@ -48,7 +45,6 @@
         // baseball game init, 답 생성 메소드
         var initBaseBall = function(){
             var answerArr = generateAnswerArr();
-            console.log("answerArr", answerArr);
 
             document.getElementById('btn1').onclick = function(){
                 var input1 = document.getElementById("input1").value;
@@ -62,7 +58,6 @@
         var pitchBaseBall = function(input1, answerArr){
             if(isPossible(input1) === true){
                 var checkArr = input1.split("").map(Number);
-                console.log("checkArr", checkArr);
                 return goBaseball(checkArr, answerArr);
             }
             else{
