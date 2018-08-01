@@ -10,58 +10,28 @@
     <h1>shuffle Array</h1>
     <div id = "result"></div>
     <script>
-        var shuffle = {};
-        shuffle.originArr = [];
-        shuffle.checkArr = [];
-        shuffle.shuffledArr = [];
-        
-        shuffle.checkArrGenerator = function(){
-            for(var i = 0; i < this.originArr.length; i++){
-                this.checkArr.push(i);
-            }
-            console.log("this.checkArr", this.checkArr);
-            return;
-        }
-
-        shuffle.checkHit = function(num){
-            if(this.checkArr[num] === -1){
-                console.log("Fail num", num);
-                return false;
-            }
-            else{
-                this.checkArr[num] = -1;
-                console.log("Hit num", num)
-                console.log("this.checkArr", this.checkArr);
-                return true;
-            }
-        }
-        
-        shuffle.randomGenerator = function(){
-            var randomNum = Math.floor(Math.random() * this.originArr.length);
-            while(!this.checkHit(randomNum)){
-                randomNum = Math.floor(Math.random() * this.originArr.length);
-            }
-            console.log("randomNum", randomNum);
-            return randomNum;
-        }
-        
-        shuffle.goShuffle = function(){
-            this.checkArrGenerator();
-            for(var i = 0 ; i < this.originArr.length; i++){
-                var index = this.randomGenerator();
-                this.shuffledArr[i] = this.originArr[index];
+        var goShuffle = function(originArr){
+            var shuffledArr = [];
+            var size = originArr.length;
+            for(var i = 0 ; i < size; i++){
+                var randomNum = Math.floor(Math.random() * originArr.length);
+                shuffledArr[i] = originArr[randomNum];
                 console.log("shuffledArr index : ", i);
-                console.log("originArr index : ", index);
+                console.log("originArr index : ", randomNum);
+                console.log("originArr value : ", originArr[randomNum])
+
+                originArr.splice(randomNum, 1);
+                console.log("originArr", originArr);
             }
-            console.log(this.shuffledArr);
-            return;
+            console.log(shuffledArr);
+            return shuffledArr;
         }
         
         var main = function(){
-            shuffle.originArr = [1,2,3,4,5,6,7,8,9,10];
-            shuffle.goShuffle();
-            document.getElementById("result").innerHTML = "originArr : " + "[" + shuffle.originArr + "]<br>";
-            document.getElementById("result").innerHTML += "shuffledArr : " + "[" + shuffle.shuffledArr + "]";
+            var arr1 = [1,2,3,4,5,6,7,8,9,10];
+            document.getElementById("result").innerHTML = "originArr : " + "[" + arr1 + "]<br>";
+            var resultArr = goShuffle(arr1);
+            document.getElementById("result").innerHTML += "shuffledArr : " + "[" + resultArr  + "]";
         }
     </script>
 </body>
