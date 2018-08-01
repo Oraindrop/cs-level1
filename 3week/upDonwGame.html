@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>upDonwGame</title>
+</head>
+<body onload = main()>
+    <h1>up Donw Game</h1>
+    <div id = "result"></div>
+    <script>
+        var randomMachine = {};
+        randomMachine.cnt = 0;
+        randomMachine.randomNumber = 0;
+        randomMachine.randomGenerator = function(){
+            this.randomNumber = Math.floor((Math.random() * 100) + 1);
+            console.log("this.randomNumber", this.randomNumber);
+        }
+        
+        randomMachine.checkNumber = function(){
+            
+            var answer = Number(prompt("1~100 까지 숫자 맞춰보세요"));
+            console.log("answer", answer);
+            if(answer === this.randomNumber){
+                this.cnt++;
+                document.getElementById("result").innerHTML = this.cnt + "번 만에 정답을 맞추셨어요.";
+                return;
+            }
+            else if(answer > this.randomNumber){
+                this.cnt++;
+                alert("down")
+                this.checkNumber();
+            }
+            else if(answer < this.randomNumber){
+                this.cnt++;
+                alert("up");
+                this.checkNumber();
+            }
+        }
+        
+        var main = function(){
+            randomMachine.randomGenerator();
+            randomMachine.checkNumber();
+        }
+
+    
+    
+    </script>
+</body>
+</html>
