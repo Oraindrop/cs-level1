@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>배열 섞기</title>
+</head>
+<body onload = main()>
+    <h1>shuffle Array</h1>
+    <div id = "result"></div>
+    <script>
+        var shuffle = {};
+        shuffle.originArr = [];
+        shuffle.checkArr = [];
+        shuffle.shuffledArr = [];
+        
+        shuffle.checkArrGenerator = function(){
+            for(var i = 0; i < this.originArr.length; i++){
+                this.checkArr.push(i);
+            }
+            console.log("this.checkArr", this.checkArr);
+            return;
+        }
+
+        shuffle.checkHit = function(num){
+            if(this.checkArr[num] === -1){
+                console.log("Fail num", num);
+                return false;
+            }
+            else{
+                this.checkArr[num] = -1;
+                console.log("Hit num", num)
+                console.log("this.checkArr", this.checkArr);
+                return true;
+            }
+        }
+        
+        shuffle.randomGenerator = function(){
+            var randomNum = Math.floor(Math.random() * this.originArr.length);
+            while(!this.checkHit(randomNum)){
+                randomNum = Math.floor(Math.random() * this.originArr.length);
+            }
+            console.log("randomNum", randomNum);
+            return randomNum;
+        }
+        
+        shuffle.goShuffle = function(){
+            this.checkArrGenerator();
+            for(var i = 0 ; i < this.originArr.length; i++){
+                var index = this.randomGenerator();
+                this.shuffledArr[i] = this.originArr[index];
+                console.log("shuffledArr index : ", i);
+                console.log("originArr index : ", index);
+            }
+            console.log(this.shuffledArr);
+            return;
+        }
+        
+        var main = function(){
+            shuffle.originArr = [1,2,3,4,5,6,7,8,9,10];
+            shuffle.goShuffle();
+            document.getElementById("result").innerHTML = "originArr : " + "[" + shuffle.originArr + "]<br>";
+            document.getElementById("result").innerHTML += "shuffledArr : " + "[" + shuffle.shuffledArr + "]";
+        }
+    </script>
+</body>
+</html>
