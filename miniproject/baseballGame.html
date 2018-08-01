@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Baseball Game</title>
+    <style>
+        div {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1em;    
+        }
+    </style>
+</head>
+<body onload = initBaseBall()>
+    <h1>숫자 야구</h1>
+    <p>
+        <input type="text" id="input1" placeholder="숫자를 입력해주세요 ex)123">
+        <button id = "btn1">Go</button>
+    </p>
+    <div id="result"></div>
+    <script>
+        // 1 ~ 9 까지의 값으로 구성된 Array 생성
+        var generateNumberArr = function(){
+            var numberArr = [];
+            for(var i = 0; i < 9; i++){
+                numberArr[i] = i+1;
+            }
+            console.log("numberArr", numberArr);
+            return numberArr;
+        }
+
+        // 중복 없는 3개의 수를 담은 Array 생성
+        var generateAnswerArr = function(){
+            var numArr = generateNumberArr();
+            var answerArr = [];
+            for(var i = 0 ; i < 3; i++){
+                var randomNum = Math.floor(Math.random() * numArr.length);
+                console.log("i : %d , randomNum : %d", i, randomNum);
+                answerArr[i] = numArr[randomNum];
+                numArr.splice(randomNum, 1);
+                console.log("numArr", numArr);
+            }
+            return answerArr;
+        }
+        
+        // 정해진 HTML 요소에 메시지를 출력
+        var printCanvas = function(resultMessage){
+            var canvas = document.getElementById("result");
+            canvas.innerHTML += resultMessage;
+            return;
+        }
+        
+        // 피칭 결과 Strike , ball 개수를 나타내는 메시지 생성
+        var generateGameResultMessage = function(numberOfStrike, numberOfBall){
+            var message = "";
+            if(numberOfStrike === 0 && numberOfBall === 0){
+                message = "Nothing. <br>";
+            }
+            else{
+                message = numberOfStrike + "Strike, " + numberOfBall + "Ball. <br>";
+            }
+            return message;
+        }
+
+        // 3Strike, Finish
+        var finishBaseBall = function(){
+            document.getElementById("btn1").disabled = true;
+            printCanvas("3개의 숫자를 모두 맞히셨습니다! 게임 종료.");
+            return;
+        }
+
+        // 게임 종료 여부를 판단
+        var judgeFinish = function(numberOfStrike, numberOfBall){
+            printCanvas(generateGameResultMessage(numberOfStrike, numberOfBall))
+            if(numberOfStrike === 3){
+                return finishBaseBall();
+            }
+            else{
+                return;
+            }
+        }
+
+        // baseball start
+        var goBaseball = function(checkArr, answerArr){
+            var strike = 0;
+            var ball = 0;
+            for(var i = 0; i < answerArr.length; i++){
+                if(checkArr[i] === answerArr[i]){
+                    strike++;
+                }
+                else if(answerArr.includes(checkArr[i])){
+                    ball++;
+                }                
+            }
+            return judgeFinish(strike, ball);
+        }
+
+        // input 값을 받아 baseball 게임 피칭
+        var pitchBaseBall = function(input1, answerArr){
+            if(isPossible(input1) === true){
+                var checkArr = input1.split("").map(Number);
+                console.log("checkArr", checkArr);
+                return goBaseball(checkArr, answerArr);
+            }
+            else{
+                return;
+            }
+        }
+        
+        // 배열에 해당 값의 카운트를 집계해 return
+        var countArrItem = function(arr, value){
+            var count = 0;
+            for(var i = 0; i < arr.length; i++){
+                if(arr[i] === value){
+                    count++;
+                }
+            }
+            return count;
+        }
+        
+        // 배열에 중복이 있는지 확인
+        var isDuplication  = function(inputArr){
+            for(var i = 0; i < inputArr.length; i++){
+                var cnt = countArrItem(inputArr, inputArr[i]);
+                if(cnt !== 1){
+                    printCanvas("inputValue is Duplication. <br>");
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        // 유효한 범위 내의 정수인지 확인
+        var isValidInteger = function(inputValue){
+            var num = Number(inputValue);
+            if(isNaN(num) || !Number.isInteger(num) || num < 100 || num > 999){
+                printCanvas("InputValue is invalid. <br>");
+                return false;
+            }
+            return true;
+        }
+
+        // 입력 값 null 체크
+        var isNull = function(inputValue){
+            if(inputValue === null || inputValue === ""){
+                printCanvas("InputValue is null. <br>");
+                return true;
+            }
+            return false;
+        }
+        
+        // 입력 값이 baseball을 진행할 수 있는지 확인
+        var isPossible = function(inputValue){
+            var checkArr = inputValue.split("").map(Number);
+            if(isNull(inputValue) === false && isValidInteger(inputValue) === true && isDuplication(checkArr) === false){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        
+        // baseball game init, 답 생성
+        var initBaseBall = function(){
+            var answerArr = generateAnswerArr();
+            console.log("answerArr", answerArr);
+
+            document.getElementById('btn1').onclick = function(){
+                var input1 = document.getElementById("input1").value;
+                pitchBaseBall(input1, answerArr);
+                return;
+            };
+            return;            
+        }
+    </script>
+</body>
+</html>
