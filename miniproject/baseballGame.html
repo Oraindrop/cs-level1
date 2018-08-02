@@ -20,7 +20,6 @@
     </p>
     <div id="result"></div>
     <script>
-
         // 1 ~ 9 까지의 값으로 구성된 Array 생성 메소드
         var generateNumberArr = function(){
             var numberArr = [];
@@ -42,10 +41,10 @@
             return answerArr;
         }
 
-        // baseball game init, 답 생성 메소드
+        // baseball game init
         var initBaseBall = function(){
-            var answerArr = generateAnswerArr();
-
+            var answerArr = generateAnswerArr(); // create answer
+            // btn1, onclick event handler
             document.getElementById('btn1').onclick = function(){
                 var input1 = document.getElementById("input1").value;
                 pitchBaseBall(input1, answerArr);
@@ -54,19 +53,19 @@
             return;            
         }
 
-        // input 값을 받아 baseball 게임 피칭 메소드
+        // baseball game start, 피칭
         var pitchBaseBall = function(input1, answerArr){
             if(isPossible(input1) === true){
                 var checkArr = input1.split("").map(Number);
-                return goBaseball(checkArr, answerArr);
+                return judgeBaseBall(checkArr, answerArr);
             }
             else{
                 return;
             }
         }
 
-        // baseball start Method
-        var goBaseball = function(checkArr, answerArr){
+        // baseball game judge.
+        var judgeBaseBall = function(checkArr, answerArr){
             var strike = 0;
             var ball = 0;
             for(var i = 0; i < answerArr.length; i++){
@@ -77,27 +76,19 @@
                     ball++;
                 }                
             }
-            return judgeFinish(strike, ball);
+            return isFinish(strike, ball);
         }
-
-        // 게임 종료 여부를 판단 메소드
-        var judgeFinish = function(numberOfStrike, numberOfBall){
-            printCanvas(generateGameResultMessage(numberOfStrike, numberOfBall))
+        
+        // baseball game judge
+        var isFinish = function(numberOfStrike, numberOfBall){
             if(numberOfStrike === 3){
                 return finishBaseBall();
             }
-            else{
-                return;
+            else {
+                return continueBaseBall(numberOfStrike, numberOfBall);
             }
         }
-
-        // 3Strike, Finish Method
-        var finishBaseBall = function(){
-            document.getElementById("btn1").disabled = true;
-            printCanvas("3개의 숫자를 모두 맞히셨습니다! 게임 종료.");
-            return;
-        }
-
+        
         // 정해진 HTML 요소에 메시지를 출력 메소드
         var printCanvas = function(resultMessage){
             var canvas = document.getElementById("result");
@@ -105,17 +96,24 @@
             return;
         }
         
-        // 피칭 결과 Strike , ball 개수를 나타내는 메시지 생성 메소드
-        var generateGameResultMessage = function(numberOfStrike, numberOfBall){
+        // result message print.
+        var continueBaseBall = function(numberOfStrike, numberOfBall){
             var message = "";
             if(numberOfStrike === 0 && numberOfBall === 0){
-                message = "Nothing. <br>";
+                return printCanvas("Nothing. <br>");
             }
             else{
-                message = numberOfStrike + "Strike, " + numberOfBall + "Ball. <br>";
+                return printCanvas(numberOfStrike + "Strike, " + numberOfBall + "Ball. <br>");
             }
-            return message;
         }
+
+        // 3Strike, Finish Method
+        var finishBaseBall = function(){
+            document.getElementById("btn1").disabled = true;
+            printCanvas("3Strike, 0Ball. <br> 3개의 숫자를 모두 맞히셨습니다! 게임 종료.");
+            return;
+        }
+
 
         // 입력 값이 baseball을 진행할 수 있는지 확인하는 메소드
         var isPossible = function(inputValue){
