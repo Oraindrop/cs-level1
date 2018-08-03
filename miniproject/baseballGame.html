@@ -17,13 +17,19 @@
     <p>
         <input type="text" id="input1" placeholder="숫자를 입력해주세요 ex)123">
         <button id = "btn1">Go</button>
+        <button id = "btn2" onclick="window.location.reload()" disabled>Retry</button>
     </p>
     <div id="result"></div>
     <script>
+        const THREE = 3;    // 정답 배열 크기, strike 최대 횟수
+        const MIN = 100;    // 입력 값의 최소값
+        const MAX = 999;    // 입력 값의 최대값
+        const NUMBER_ARR_COUNT = 9; // 1~9 까지의 숫자로 구성된 Array의 길이
+
         // 1 ~ 9 까지의 값으로 구성된 Array 생성 메소드
         var generateNumberArr = function(){
             var numberArr = [];
-            for(var i = 0; i < 9; i++){
+            for(var i = 0; i < NUMBER_ARR_COUNT; i++){
                 numberArr[i] = i+1;
             }
             return numberArr;
@@ -33,7 +39,7 @@
         var generateAnswerArr = function(){
             var numArr = generateNumberArr();
             var answerArr = [];
-            for(var i = 0 ; i < 3; i++){
+            for(var i = 0 ; i < THREE; i++){
                 var randomNum = Math.floor(Math.random() * numArr.length);
                 answerArr[i] = numArr[randomNum];
                 numArr.splice(randomNum, 1);
@@ -81,7 +87,7 @@
         
         // 종료 조건 체크
         var isFinish = function(numberOfStrike, numberOfBall){
-            if(numberOfStrike === 3){
+            if(numberOfStrike === THREE){
                 return finishBaseBall();
             }
             else {
@@ -110,7 +116,8 @@
         // 3Strike, Finish Method
         var finishBaseBall = function(){
             document.getElementById("btn1").disabled = true;
-            printCanvas("3Strike, 0Ball. <br> 3개의 숫자를 모두 맞히셨습니다! 게임 종료.");
+            document.getElementById("btn2").disabled = false;
+            printCanvas("3Strike, 0Ball. <br> 3개의 숫자를 모두 맞히셨습니다! 게임 종료. <br> 재시도를 원하시면 Retry 버튼을 클릭해주세요.");
             return;
         }
 
@@ -152,7 +159,7 @@
         // 유효한 범위 내의 정수인지 확인하는 메소드
         var isValidInteger = function(inputValue){
             var num = Number(inputValue);
-            if(isNaN(num) || !Number.isInteger(num) || num < 100 || num > 999){
+            if(isNaN(num) || !Number.isInteger(num) || num < MIN || num > MAX){
                 printCanvas("InputValue is invalid. <br>");
                 return false;
             }
