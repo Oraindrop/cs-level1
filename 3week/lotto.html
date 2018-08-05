@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lotto</title>
+</head>
+<body onload = generateLotto()>
+    <script>
+        var generateNumberArr = function(){
+            var arr = [];
+            for (i = 0; i < 45; i++){
+                arr[i] = i+1;
+            }
+            return arr;
+        }
+
+        var generateLotto = function(){
+            var numArr = generateNumberArr();
+            var answerArr = [];
+            for(var i = 0 ; i < 6; i++){
+                var randomNum = Math.floor(Math.random() * numArr.length);
+                answerArr[i] = numArr[randomNum];
+                numArr.splice(randomNum, 1);
+            }
+            console.log(answerArr);
+            return answerArr;
+        }
+    </script>
+</body>
+</html>
