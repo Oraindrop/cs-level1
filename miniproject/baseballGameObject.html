@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Baseball Game</title>
+    <style>
+        div {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1em;    
+        }
+    </style>
+</head>
+<body onload = init()>
+    <h1>숫자 야구</h1>
+    <p>
+        <input type="text" id="input1" placeholder="숫자를 입력해주세요 ex)123">
+        <button id = "btn1">Go</button>
+        <button id = "btn2" onclick="window.location.reload()" disabled>Retry</button>
+    </p>
+    <div id="result"></div>
+    <script>
+        const THREE = 3;    // 정답 배열 크기, strike 최대 횟수
+        const MIN = 100;    // 입력 값의 최소값
+        const MAX = 999;    // 입력 값의 최대값
+        const NUMBER_ARR_COUNT = 9; // 1~9 까지의 숫자로 구성된 Array의 길이
+
+        // baseballData Object
+        var baseballData = new function(){
+            this.answerArr = [];
+            this.challengeArr = [];
+            this.generateNumberArr = function(){
+                var numberArr = [];
+                for(var i = 0; i < NUMBER_ARR_COUNT; i++){
+                    numberArr[i] = i+1;
+                }
+                return numberArr;
+            }        
+            this.generateAnswerArr = function(){
+                var numArr = this.generateNumberArr();
+                var ansArr = [];
+                for(var i = 0 ; i < THREE; i++){
+                    var randomNum = Math.floor(Math.random() * numArr.length);
+                    ansArr[i] = numArr[randomNum];
+                    numArr.splice(randomNum, 1);
+                }
+                this.answerArr = ansArr;
+                console.log("answerArr", this.answerArr);
+                return;
+            }
+            this.setChallengeArr = function(arr){
+                this.challengeArr = arr;
+                return;
+            }
+            this.getChallengeArr = function(){
+                return this.challengeArr;            
+            }
+            this.getAnswerArr = function(){
+                return this.answerArr;
+            }
+        }
+
+
+        // baseballView Object
+        var baseballView = new function(){
+            this.input = "";            
+            this.setInput = function(input){
+                this.input = input;
+            }
+            this.printOutput = function(resultMessage){
+                var canvas = document.getElementById("result");
+                if(resultMessage == "finish"){
+                    document.getElementById("btn1").disabled = true;
+                    document.getElementById("btn2").disabled = false;
+                    canvas.innerHTML += "3Strike, 0Ball. <br> 3개의 숫자를 모두 맞히셨습니다! 게임 종료. <br> 재시도를 원하시면 Retry 버튼을 클릭해주세요.";
+                    return;
+                }
+                else{
+                    canvas.innerHTML += resultMessage;
+                    return;
+                }
+            }            
+            this.getInput = function(){
+                return this.input;
+            }
+        };
+        
+        // baseballChecker Object
+        var baseballChecker = new function(){
+            this.inputValue = "";
+            this.inputArr = [];
+            this.checkedArr = [];
+
+            this.countArrItem = function(value){
+                var count = 0;
+                for(var i = 0; i < this.inputArr.length; i++){
+                    if(this.inputArr[i] === value){
+                        count++;
+                    }
+                }
+                return count;
+            }            
+            // 배열 중복값 여부 체크 메소드
+            this.isDuplication  = function(){
+                for(var i = 0; i < this.inputArr.length; i++){
+                    var cnt = this.countArrItem(this.inputArr[i]);
+                    if(cnt !== 1){
+                        baseballView.printOutput("inputValue is Duplication. <br>");
+                        return true;
+                    }
+                }
+                return false;
+            }
+            this.isValidInteger = function(){
+                var num = Number(this.inputValue);
+                if(isNaN(num) || !Number.isInteger(num) || num < MIN || num > MAX){
+                    baseballView.printOutput("InputValue is invalid. <br>");
+                    return false;
+                }
+                return true;
+            }
+            // 입력 값 null 체크 메소드
+            this.isNull = function(){
+                if(this.inputValue === null || this.inputValue === ""){
+                    baseballView.printOutput("InputValue is null. <br>");
+                    return true;
+                }
+                return false;
+            }
+            // 입력 값이 baseball을 진행할 수 있는지 확인하는 메소드
+            this.isPossible = function(){            
+                if(this.isNull() === false && this.isValidInteger() === true && this.isDuplication() === false){
+                    this.setCheckedArr();
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            this.setInputValue = function(inputData){
+                this.inputValue = inputData;
+                return;
+            }
+            this.setInputArr = function(){
+                this.inputArr = this.inputValue.split("").map(Number);
+                return;
+            }            
+            this.setCheckedArr = function(){
+                this.checkedArr = this.inputArr;
+                return;
+            }
+            this.getCheckedArr = function(){
+                return this.checkedArr;
+            }
+        };
+
+        
+        // baseballJudge
+        var baseballJudge = new function(){
+            this.strike = 0;
+            this.ball = 0;
+
+            this.pitch = function(){
+                if(baseballChecker.isPossible() == true){
+                    baseballData.setChallengeArr(baseballChecker.getCheckedArr());
+                    return this.judge();
+                }
+                else{
+                    return;
+                }
+            }
+            this.judge = function(){            
+                this.strike = 0;
+                this.ball = 0;
+                for(var i = 0; i < baseballData.answerArr.length; i++){
+                    if(baseballData.challengeArr[i] == baseballData.answerArr[i]){
+                        this.strike++;
+                    }
+                    else if(baseballData.answerArr.includes(baseballData.challengeArr[i])){
+                        this.ball++;
+                    }                
+                }
+                return this.isFinish();
+            }
+            // 종료 조건 체크
+            this.isFinish = function(){
+                if(this.strike === THREE){
+                    return baseballView.printOutput("finish");
+                }
+                else {
+                    return this.continue();
+                }
+            }            
+            // result message print.
+            this.continue = function(){
+                var message = "";
+                if(this.strike === 0 && this.ball === 0){
+                    return baseballView.printOutput("Nothing. <br>");
+                }
+                else{
+                    return baseballView.printOutput(this.strike + "Strike, " + this.ball + "Ball. <br>");
+                }
+            }    
+        };
+
+        var init = function(){
+            baseballData.generateAnswerArr();
+            document.getElementById('btn1').onclick = function(){
+                baseballView.setInput(document.getElementById("input1").value);
+                baseballChecker.setInputValue(baseballView.getInput());
+                baseballChecker.setInputArr();
+                return baseballJudge.pitch();   
+            }
+            return;       
+        }
+    </script>
+</body>
+</html>
